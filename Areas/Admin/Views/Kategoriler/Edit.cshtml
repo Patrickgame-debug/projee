@@ -1,0 +1,69 @@
+﻿@model E_Ticaret.Models.Entities.Kategori
+
+@{
+    ViewData["Title"] = "Kategori Düzenle";
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="GuncellemeTarihi" />
+            <input type="hidden" asp-for="KayitTarihi" />
+
+            <div class="form-group">
+                <label asp-for="KategoriAdi" class="control-label"></label>
+                <input asp-for="KategoriAdi" class="form-control" />
+                <span asp-validation-for="KategoriAdi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Aciklama" class="control-label"></label>
+                <textarea asp-for="Aciklama" class="form-control"></textarea>
+                <span asp-validation-for="Aciklama" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Resim" class="control-label"></label>
+                <input asp-for="Resim" class="form-control" type="file" />
+                <span asp-validation-for="Resim" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="AktifMi" /> @Html.DisplayNameFor(model => model.AktifMi)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="UstKategoriId" class="control-label"></label>
+                
+                <select asp-for="UstKategoriId" class="form-select" asp-items="ViewBag.Kategoriler">
+                    <option value="0">Ana Kategori</option>
+
+                </select>
+                <span asp-validation-for="UstKategoriId" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="UstMenudeGozuksunMu" /> @Html.DisplayNameFor(model => model.UstMenudeGozuksunMu)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="SiparisNo" class="control-label"></label>
+                <input asp-for="SiparisNo" class="form-control" />
+                <span asp-validation-for="SiparisNo" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <input type="submit" value="Kaydet" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Geriye Dön</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,11 @@
+﻿@model Kampanya
+@using E_Ticaret.Models.Entities
+
+@{
+    ViewData["Title"] = "Kampanya";
+}
+<div class="col mb-5">
+    <a href="/Kampanyalar/Details/@Model.Id">
+        <img src="/Fotolar/@Model.Resim" alt="@Model.Resim" class="img-fluid" />
+    </a>
+</div>

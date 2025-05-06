@@ -1,0 +1,100 @@
+﻿@model List<E_Ticaret.Models.Entities.Urun>
+
+@inject E_Ticaret.DataContext.DatabaseContext _context
+@if (TempData["Hata"] != null)
+{
+    <div class="alert alert-warning text-center">
+        @TempData["Hata"]
+    </div>
+}
+
+
+<h2 class="text-center my-4">Karşılaştırma Listesi</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info text-center">Henüz karşılaştırma listesine ürün eklenmedi.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-bordered text-center align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Özellik</th>
+                    @foreach (var urun in Model)
+                    {
+                        <th>@urun.UrunAdi</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Resim</th>
+                    @foreach (var urun in Model)
+                    {
+                        <td><img src="/Fotolar/@urun.Resim" style="width: 100px;" /></td>
+                    }
+                </tr>
+                <tr>
+                    <th>Fiyat</th>
+                    @foreach (var urun in Model)
+                    {
+                        <td>@urun.Fiyat.ToString("C")</td>
+                    }
+                </tr>
+                <tr>
+                    <th>Marka</th>
+                    @foreach (var urun in Model)
+                    {
+                        <td>@urun.Marka?.MarkaAdi</td>
+                    }
+                </tr>
+                <tr>
+                    <th>Stok</th>
+                    @foreach (var urun in Model)
+                    {
+                        <td>@urun.StokAdedi adet</td>
+                    }
+                </tr>
+                <tr>
+                    <th>Ortalama Puan</th>
+                    @foreach (var urun in Model)
+                    {
+                        var yorumlar = _context.Yorumlar.Where(y => y.UrunId == urun.Id).ToList();
+                        var ortalama = yorumlar.Any() ? yorumlar.Average(y => y.Puan) : 0;
+                        <td>
+                            @ortalama
+                            <div class="text-warning">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <i class="bi @(i <= ortalama ? "bi-star-fill" : (i - ortalama <= 0.5 ? "bi-star-half" : "bi-star"))"></i>
+                                }
+                            </div>
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    <th>Açıklama</th>
+                    @foreach (var urun in Model)
+                    {
+                        <td>@urun.Aciklama?.Substring(0, Math.Min(80, urun.Aciklama.Length))...</td>
+                    }
+                </tr>
+                <tr>
+                    <th></th>
+                    @foreach (var urun in Model)
+                    {
+                        <td>
+                            <form asp-controller="UrunKarsilastirma" asp-action="RemoveFromCompare" method="post">
+                                <input type="hidden" name="urunId" value="@urun.Id" />
+                                <button class="btn btn-sm btn-danger">Kaldır</button>
+                            </form>
+                        </td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+

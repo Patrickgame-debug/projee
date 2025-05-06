@@ -1,0 +1,56 @@
+﻿@model E_Ticaret.Models.Entities.Siparis
+
+@{
+    ViewData["Title"] = "Sipariş Olustur";
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id"/>
+            <input type="hidden" asp-for="SiparisTarihi" />
+
+            <div class="form-group">
+                <label asp-for="SiparisNo" class="control-label"></label>
+                <input asp-for="SiparisNo" class="form-control" />
+                <span asp-validation-for="SiparisNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ToplamTutar" class="control-label"></label>
+                <input asp-for="ToplamTutar" class="form-control" />
+                <span asp-validation-for="ToplamTutar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KullaniciId" class="control-label"></label>
+                <input asp-for="KullaniciId" class="form-control" />
+                <span asp-validation-for="KullaniciId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MusteriNumarasi" class="control-label"></label>
+                <input asp-for="MusteriNumarasi" class="form-control" />
+                <span asp-validation-for="MusteriNumarasi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FaturaAdresi" class="control-label"></label>
+                <input asp-for="FaturaAdresi" class="form-control" />
+                <span asp-validation-for="FaturaAdresi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TeslimatAdresi" class="control-label"></label>
+                <input asp-for="TeslimatAdresi" class="form-control" />
+                <span asp-validation-for="TeslimatAdresi" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Geri Dön</a>
+</div>
+

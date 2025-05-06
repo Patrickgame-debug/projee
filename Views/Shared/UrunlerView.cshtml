@@ -1,0 +1,57 @@
+﻿@using E_Ticaret.Models.Entities
+@model Urun
+
+<div class="col mb-5">
+    <div class="card h-100 position-relative">
+
+        <!-- Favorilere Ekle (Sağ üst köşe) -->
+        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">
+            <form asp-action="Add" asp-controller="Favoriler" method="post">
+                <input type="hidden" name="UrunId" value="@Model.Id" />
+                <button type="submit" class="btn btn-transparent p-0" title="Favorilere Ekle">
+                    <i class="bi bi-heart text-white"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Karşılaştırmaya Ekle (Sol üst köşe) -->
+        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; left: 0.5rem">
+            <form asp-controller="UrunKarsilastirma" asp-action="AddToCompare" method="post">
+                <input type="hidden" name="urunId" value="@Model.Id" />
+                <button type="submit" class="btn btn-transparent p-0" title="Karşılaştırmaya Ekle">
+                    <i class="bi bi-columns-gap text-white"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Ürün görseli -->
+        <a href="/UrunDetay/Details/@Model.Id">
+            <img class="card-img-top" src="/Fotolar/@Model.Resim"
+                 alt="@Model.UrunAdi"
+                 style="object-fit: contain; height: 220px; width: 100%;" />
+        </a>
+
+        <!-- Ürün detayları -->
+        <div class="card-body p-4">
+            <div class="text-center">
+                <h5 class="fw-bolder">@Model.UrunAdi</h5>
+                <span class="text-muted text-decoration-line-through">@Model.Fiyat.ToString("c")</span>
+            </div>
+        </div>
+
+        <!-- Sepete ekle butonu -->
+        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+            <div class="text-center">
+                <form asp-action="Add" asp-controller="Sepet" method="post" class="d-inline">
+                    <input type="hidden" name="urunId" value="@Model.Id" />
+                    <input type="hidden" name="quantity" value="1" />
+                    <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                    <button type="submit" class="btn btn-outline-dark btn-sm">
+                        <i class="bi bi-cart-plus me-1"></i> Sepete Ekle
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>

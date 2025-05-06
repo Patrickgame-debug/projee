@@ -1,0 +1,103 @@
+﻿@model E_Ticaret.Models.Entities.CheckoutViewModel
+
+@{
+    ViewData["Title"] = "Sepetim";
+}
+
+<h2 class="text-center my-4">Sepetim</h2>
+
+@if (!Model.CartProducts.Any())
+{
+    <div class="alert alert-info">Sepetinizde ürün yok.</div>
+}
+else
+{
+    <div class="row">
+        <!-- Ürün Listesi -->
+        <div class="col-md-8">
+            <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Ürün</th>
+                        <th>Miktar</th>
+                        <th>Fiyat</th>
+                        <th>Toplam</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CartProducts)
+                    {
+                        <tr>
+                            <td>
+                                <img src="/Fotolar/@item.Urun.Resim" height="40" class="me-2" />
+                                @item.Urun.UrunAdi
+                            </td>
+                            <td>
+                                <form asp-action="Update" method="post" class="d-flex">
+                                    <input type="hidden" name="urunId" value="@item.Urun.Id" />
+                                    <input type="number" name="quantity" value="@item.Quantity" class="form-control form-control-sm me-2" min="1" />
+                                    <button type="submit" class="btn btn-sm btn-success">✔</button>
+                                </form>
+                            </td>
+                            <td>@(item.Urun.IndirimliFiyat ?? item.Urun.Fiyat) ₺</td>
+                            <td>@((item.Urun.IndirimliFiyat ?? item.Urun.Fiyat) * item.Quantity) ₺</td>
+                            <td>
+                                <a asp-action="Remove" asp-route-urunId="@item.Urun.Id" class="btn btn-danger btn-sm">X</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <a asp-action="Clear" class="btn btn-warning mt-3">Sepeti Temizle</a>
+        </div>
+
+        <!-- Sepet Özeti -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header fw-bold">Sepet Toplamı</div>
+                <div class="card-body">
+                    <p>Ara Toplam: <span class="float-end">@Model.TotalPrice ₺</span></p>
+                    <p>Kargo: <span class="float-end">@(Model.KargoUcreti == 0 ? "Ücretsiz" : Model.KargoUcreti + " ₺")</span></p>
+                    <hr />
+                    <h5>Sipariş Toplamı: <span class="float-end">@(@Model.TotalPrice + Model.KargoUcreti) ₺</span></h5>
+
+
+                    @if (Model.KargoUcreti == 0)
+                    {
+                        <div class="alert alert-success mt-4">
+                            Sepetiniz 1000₺ ve üzeri olduğu için kargo ücretsiz! 🎉
+                        </div>
+                    }
+
+                    <form asp-action="SetKargo" method="post" class="mt-3">
+                        <label class="fw-bold mb-1">Kargo Seçimi:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="kargoTipi" value="Standart"
+                            @(Model.KargoTipi == "Standart" ? "checked" : "") />
+                            <label class="form-check-label">Standart Kargo (99,99₺)</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="kargoTipi" value="Hizli"
+                            @(Model.KargoTipi == "Hizli" ? "checked" : "") />
+                            <label class="form-check-label">Hızlı Teslimat (199,99₺)</label>
+                        </div>
+                        <button type="submit" class="btn btn-outline-primary btn-sm mt-2">Kargo Tipini Uygula</button>
+                    </form>
+                </div>
+                <div class="card-footer bg-white text-end">
+                    <a href="/" class="btn btn-danger me-2">
+                        <i class="bi bi-cart-plus"></i> Alışverişe Devam Et
+                    </a>
+                    <form asp-controller="Sepet" asp-action="Checkout" method="get" class="d-inline">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-credit-card"></i> Satın Al
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}

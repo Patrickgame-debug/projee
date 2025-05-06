@@ -1,0 +1,57 @@
+﻿@model List<E_Ticaret.Models.Entities.Adress>
+
+@{
+    ViewData["Title"] = "Adreslerim";
+}
+
+<h2 class="text-center my-4">Adreslerim</h2>
+
+<div class="text-end mb-3">
+    <a asp-controller="Adresslerim" asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Yeni Ekle
+    </a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Henüz kayıtlı adresiniz bulunmamaktadır.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead class="table-light">
+            <tr>
+                <th>Adres Başlığı</th>
+                <th>Şehir</th>
+                <th>İlçe</th>
+                <th>Fatura Adresi</th>
+                <th>Teslimat Adresi</th>
+                <th>Aktif Mi</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var adres in Model)
+            {
+                <tr>
+                    <td>@adres.AdresBasligi</td>
+                    <td>@adres.Sehir</td>
+                    <td>@adres.Ilce</td>
+                    <td>@(adres.FaturaAdres ? "✔️" : "—")</td>
+                    <td>@(adres.TeslimatAdres ? "✔️" : "—")</td>
+                    <td>@(adres.AktifMi ? "✔️" : "❌")</td>
+                    <td>
+                        <a asp-controller="Adresslerim" asp-action="Edit" asp-route-id="@adres.Id" class="btn btn-sm btn-warning me-1">
+                            <i class="bi bi-pencil"></i> Düzenle
+                        </a>
+                        <a asp-controller="Adresslerim" asp-action="Delete" asp-route-id="@adres.Id" class="btn btn-sm btn-danger">
+                            <i class="bi bi-trash"></i> Sil
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

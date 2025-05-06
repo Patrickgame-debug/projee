@@ -1,0 +1,18 @@
+﻿@model Kampanya
+
+
+@{
+    ViewData["Title"] = Model.KampanyaAdi;
+}
+
+
+<h1>@Model.KampanyaAdi</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <img src="/Fotolar/@Model.Resim" alt="@Model.KampanyaAdi" class="img-fluid" />
+    </div>
+    <div class="col-md-6">
+        @Model.Aciklama
+    </div>
+</div>

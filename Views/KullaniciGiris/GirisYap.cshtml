@@ -1,0 +1,80 @@
+﻿@model KayitSayfaModeli
+@{
+    ViewData["Title"] = "Giriş Yap";
+}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-sm rounded-4 p-4" style="width: 100%; max-width: 400px;">
+        <div class="d-flex mb-3 border rounded-pill overflow-hidden">
+            <a href="/KullaniciGiris/GirisYap" class="btn btn-light w-50 active">Giriş yap</a>
+            <a href="/KullaniciGiris/KayitOl" class="btn btn-light w-50 text-muted">Üye ol</a>
+        </div>
+
+        <form asp-action="GirisYap">
+
+            <div class="mb-3 text-start">
+                <label for="Email">E-posta</label>
+                <input asp-for="Email" class="form-control" id="floatingInput" placeholder="E-posta adresini yaz" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 text-start">
+                <label for="floatingPassword">Şifre</label>
+                <div class="input-group">
+                    <input asp-for="Sifre" type="password" class="form-control" placeholder="Şifreni yaz" id="floatingPassword" />
+                    <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('floatingPassword', 'eyeIcon')">
+                        <i id="eyeIcon" class="bi bi-eye-slash"></i>
+                    </button>
+                </div>
+                <span asp-validation-for="Sifre" class="text-danger"></span>
+            </div>
+            <div class="mb-3 text-start d-flex justify-content-between align-items-center">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="flexCheckDefault" />
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Beni hatırla
+                    </label>
+                </div>
+                <div>
+                    <a href="/KullaniciGiris/SifremiUnuttum" class="text-decoration-none text-primary">Şifremi unuttum?</a>
+                </div>
+            </div>
+
+
+
+                <input  type="hidden" asp-for="GeriDonusUrl" value="@Context.Request.Query["ReturnUrl"]"/>  
+
+            <button class="btn btn-primary w-100 py-2" type="submit">Giriş</button>
+        </form>
+
+        <div class="text-center text-muted my-3">veya</div>
+
+        <div class="d-grid">
+            <button type="button" class="btn btn-outline-secondary rounded-pill">
+                <i class="fa-brands fa-google me-2"></i>
+                Google ile giriş yap
+            </button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("bi-eye-slash");
+                icon.classList.add("bi-eye");
+            } else {
+                input.type = "password";
+                icon.classList.remove("bi-eye");
+                icon.classList.add("bi-eye-slash");
+            }
+        }
+    </script>
+}
+

@@ -1,0 +1,48 @@
+﻿@model List<Siparis>
+
+@{
+    ViewData["Title"] = "Siparişlerim";
+}
+
+<h2 class="text-center my-4">Siparişlerim</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info text-center">
+        Henüz herhangi bir sipariş vermediniz.
+    </div>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>Sipariş No</th>
+                <th>Tarih</th>
+                <th>Toplam</th>
+                <th>Ürün Sayısı</th>
+                <th>Sipariş Durumu</th>
+                <th></th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var siparis in Model)
+            {
+                <tr>
+                    <td>@siparis.SiparisNo</td>
+                    <td>@siparis.SiparisTarihi.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>@siparis.ToplamTutar ₺</td>
+                    <td>@siparis.SiparisDetaylari.Count</td>
+                    <td>
+                        @Html.DisplayFor(m => siparis.SiparisDurumu)
+                    </td>
+                    <td>
+                        <a asp-action="SiparisDetay" asp-route-id="@siparis.Id" class="btn btn-sm btn-outline-primary">Detay</a>
+                    </td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+}

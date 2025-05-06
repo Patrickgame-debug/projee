@@ -1,0 +1,74 @@
+﻿@model List<E_Ticaret.Models.Entities.Urun>
+
+@{
+    ViewData["Title"] = "Favorilerim";
+}
+
+<section class="container my-5">
+    <div class="text-center">
+        <h1 class="display-4">Favorilerim</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <div class="table-responsive">
+                @if (Model.Any())
+                {
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Ürün</th>
+                                <th>Fiyat</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <img src="/Fotolar/@item.Resim" alt="" height="50" />
+                                    </td>
+                                    <td>
+                                        <a class="nav-link text-dark" href="/UrunDetay/Details/@item.Id">
+                                            @item.UrunAdi
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @item.Fiyat.ToString("c")
+                                    </td>
+                                    <td class="d-flex">
+                                        <!-- Favorilerden çıkar -->
+                                        <form asp-action="Remove" asp-controller="Favoriler" method="post" class="me-2">
+                                            <input type="hidden" name="UrunId" value="@item.Id" />
+                                            <button class="btn btn-sm btn-danger" type="submit" title="Favorilerden Kaldır">
+                                                <i class="bi bi-x-lg"></i>
+                                            </button>
+                                        </form>
+
+                                        <!-- Sepete ekle   buraya FAVORİLERDEN SEPETE EKLEME KISMI YAPILDI YENİ OLDU BUNLAR 2.05.2025-->
+                                        <form asp-action="SepeteEkle" asp-controller="Favoriler" method="post">
+                                            <input type="hidden" name="urunId" value="@item.Id" />
+                                            <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                                            <button class="btn btn-sm btn-success" type="submit" title="Sepete Ekle">
+                                                <i class="bi bi-cart-plus"></i> Sepete Ekle
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="container">
+                        <div class="alert alert-warning my-5">
+                            <h3>Favorilerinizde ürün bulunmamaktadır!</h3>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

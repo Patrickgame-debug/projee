@@ -1,0 +1,63 @@
+﻿@model IEnumerable<E_Ticaret.Models.Entities.Iletisim>
+
+@{
+    ViewData["Title"] = "İletişim Sayfası";
+}
+
+<table class="table table-hover table-striped ">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Adi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Soyadi)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.Mesaj)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.AktifMi)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.KayitTarihi)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Soyadi)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Mesaj)
+            </td>
+            
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.AktifMi)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.KayitTarihi)
+            </td>
+           
+            <td>
+                  
+                    <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.Id"><i class="fa-solid fa-magnifying-glass"></i></a> |
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

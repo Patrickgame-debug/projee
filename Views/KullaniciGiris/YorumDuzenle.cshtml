@@ -1,0 +1,35 @@
+﻿@model E_Ticaret.Models.Entities.Yorum
+
+@{
+    ViewData["Title"] = "Yorum Düzenle";
+}
+
+<h2 class="text-center my-4">Yorumunu Düzenle</h2>
+
+<div class="card shadow-sm p-4 mx-auto" style="max-width: 600px;">
+    <form asp-action="YorumDuzenle" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label class="form-label">Ürün</label>
+            <input class="form-control" value="@Model.SiparisDetay?.Urun?.UrunAdi" disabled />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Puan" class="form-label">Puan</label>
+            <select asp-for="Puan" class="form-select">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <option value="@i" selected="@(Model.Puan == i)">@i</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="YorumMetni" class="form-label">Yorum</label>
+            <textarea asp-for="YorumMetni" class="form-control" rows="4"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Kaydet</button>
+    </form>
+</div>

@@ -1,0 +1,115 @@
+﻿@model E_Ticaret.Models.Entities.Kullanici
+@{
+    ViewData["Title"] = "Üye Ol";
+}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-sm rounded-4 p-4" style="width: 100%; max-width: 450px;">
+        <div class="d-flex mb-3 border rounded-pill overflow-hidden">
+            <a href="/KullaniciGiris/GirisYap" class="btn btn-light w-50 text-muted">Giriş yap</a>
+            <a href="/KullaniciGiris/KayitOl" class="btn btn-light w-50 active">Üye ol</a>
+        </div>
+
+        
+                <form asp-action="KayitOl">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="mb-3 text-start form-group">
+                        <label asp-for="Adi" class="control-label"></label>
+                        <input asp-for="Adi" class="form-control" />
+                        <span asp-validation-for="Adi" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 text-start form-group">
+                        <label asp-for="Soyadi" class="control-label"></label>
+                        <input asp-for="Soyadi" class="form-control" />
+                        <span asp-validation-for="Soyadi" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label asp-for="Telefon" class="form-label">Telefon</label>
+                        <div class="input-group">
+                            <span class="input-group-text">TR +90</span>
+                            <input asp-for="Telefon" class="form-control" placeholder="(5__) ___ __ __" />
+                        </div>
+                    </div>
+            <div class=" mb-3 text-startform-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+                    <div class="mb-3 text-start form-group">
+                        <label asp-for="KullaniciAdi" class="control-label"></label>
+                        <input asp-for="KullaniciAdi" class="form-control" />
+                        <span asp-validation-for="KullaniciAdi" class="text-danger"></span>
+                    </div>
+                    
+            <div class="mb-3 text-start">
+                <label asp-for="Sifre" class="form-label">Şifre</label>
+                <div class="input-group">
+                    <input asp-for="Sifre" type="password" class="form-control" placeholder="Şifreni yaz" id="sifreInput" />
+                    <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('sifreInput', 'sifreIcon')">
+                        <i id="sifreIcon" class="bi bi-eye-slash"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="mb-3 text-start">
+                <label class="form-label">Şifre doğrula</label>
+                <div class="input-group">
+                    <input type="password" name="SifreDogrula" class="form-control" placeholder="Şifreni tekrar yaz" id="sifreDogrulaInput" />
+                    <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('sifreDogrulaInput', 'sifreDogrulaIcon')">
+                        <i id="sifreDogrulaIcon" class="bi bi-eye-slash"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-check mb-2 text-start">
+                <input class="form-check-input" type="checkbox" id="onay1" required>
+                <label class="form-check-label text-success" for="onay1">
+                    <a href="#">Aydınlatma Metni'ni</a> okudum, onaylıyorum.
+                </label>
+            </div>
+
+            <div class="form-check mb-3 text-start">
+                <input class="form-check-input" type="checkbox" id="onay2">
+                <label class="form-check-label text-success" for="onay2">
+                    Kampanyalardan haberdar olmak için <a href="#">Ticari Elektronik İleti Açık Rıza Metni</a> kapsamında iletişim bilgilerimin kullanılmasını onaylıyorum.
+                </label>
+            </div>
+
+
+                <div class="d-grid mb-3">
+                        <input type="submit" value="Üye Ol" class="btn btn-primary" />
+                    </div>
+                </form>
+          
+
+        <div class="text-center text-muted my-3">veya</div>
+
+        <div class="d-grid">
+            <button class="btn btn-outline-secondary rounded-pill" type="button">
+                <i class="fa-brands fa-google me-2"></i>
+                Google ile giriş yap
+            </button>
+        </div>
+
+    </div>
+</div>
+
+section Scripts {
+<partial name="_ValidationScriptsPartial" />
+<script>
+    function togglePassword(inputId, iconId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("bi-eye-slash");
+            icon.classList.add("bi-eye");
+        } else {
+            input.type = "password";
+            icon.classList.remove("bi-eye");
+            icon.classList.add("bi-eye-slash");
+        }
+    }
+</script>
+}

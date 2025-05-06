@@ -1,0 +1,63 @@
+﻿@model E_Ticaret.Models.Entities.Iletisim
+
+@{
+    ViewData["Title"] = "Iletisim Sayfası";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Iletisim Sayfası</h1>
+    
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Iletisim">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Adi" class="control-label"></label>
+                <input asp-for="Adi" class="form-control" />
+                <span asp-validation-for="Adi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Soyadi" class="control-label"></label>
+                <input asp-for="Soyadi" class="form-control" />
+                <span asp-validation-for="Soyadi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mesaj" class="control-label"></label>
+                <textarea asp-for="Mesaj" class="form-control" rows="4"></textarea>
+                
+                <span asp-validation-for="Mesaj" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Telefon" class="control-label"></label>
+                <input asp-for="Telefon" class="form-control" />
+                <span asp-validation-for="Telefon" class="text-danger"></span>
+            </div>
+            
+            
+            
+            <div class="form-group mt-2">
+                <input type="submit" value="Gönder" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-8">
+        <h5>Bize Ulaşın</h5>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12066.641847296458!2d29.247835275557943!3d40.87932499189997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cadc9f835830e9%3A0xf5e15cbe86630278!2sPendik%2C%20Kaynarca%2C%2034890%20Pendik%2F%C4%B0stanbul!5e0!3m2!1str!2str!4v1745791138656!5m2!1str!2str" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+    </div>
+
+</div>
+
+
+
+
+

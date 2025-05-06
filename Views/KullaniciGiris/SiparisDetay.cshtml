@@ -1,0 +1,44 @@
+﻿@model E_Ticaret.Models.Entities.Siparis
+
+@{
+    ViewData["Title"] = "Sipariş Detayı";
+}
+
+<h2 class="text-center my-4">Sipariş Detayı</h2>
+
+<div class="mb-4">
+    <strong>Sipariş No:</strong> @Model.SiparisNo<br />
+    <strong>Tarih:</strong> @Model.SiparisTarihi.ToString("dd.MM.yyyy HH:mm")<br />
+    <strong>Toplam Tutar:</strong> @Model.ToplamTutar ₺<br />
+    <strong>Fatura Adresi:</strong> @Model.FaturaAdresi<br />
+    <strong>Teslimat Adresi:</strong> @Model.TeslimatAdresi
+</div>
+
+<table class="table table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>Ürün</th>
+            <th>Adet</th>
+            <th>Birim Fiyat</th>
+            <th>Toplam</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var detay in Model.SiparisDetaylari)
+        {
+            <tr>
+                <td>
+                    <img src="/Fotolar/@detay.Urun.Resim" height="50" class="me-2" />
+                    @detay.Urun.UrunAdi
+                </td>
+                <td>@detay.Miktar</td>
+                <td>@detay.BirimFiyati ₺</td>
+                <td>@(detay.Miktar * detay.BirimFiyati) ₺</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="text-end mt-4">
+    <a href="@Url.Action("Siparislerim", "KullaniciGiris")" class="btn btn-secondary">← Siparişlere Dön</a>
+</div>

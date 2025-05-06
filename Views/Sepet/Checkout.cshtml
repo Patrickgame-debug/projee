@@ -1,0 +1,147 @@
+﻿@model E_Ticaret.Models.Entities.CheckoutViewModel
+
+@{
+    ViewData["Title"] = "Ödeme Sayfası";
+}
+
+<h2 class="text-center my-4">Ödeme Sayfası</h2>
+
+@if (!Model.CartProducts.Any())
+{
+    <div class="alert alert-info">Sepetinizde ürün yok.</div>
+}
+else
+{
+    <form asp-action="Checkout" method="post">
+        <div class="row">
+            <!-- Ürün Listesi -->
+            <div class="col-md-8">
+                <table class="table table-bordered align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Ürün</th>
+                            <th>Miktar</th>
+                            <th>Fiyat</th>
+                            <th>Toplam</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CartProducts)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="/Fotolar/@item.Urun.Resim" height="40" class="me-2" />
+                                    @item.Urun.UrunAdi
+                                </td>
+                                <td>@item.Quantity</td>
+                                <td>@(item.Urun.IndirimliFiyat ?? item.Urun.Fiyat) ₺</td>
+                                <td>@((item.Urun.IndirimliFiyat ?? item.Urun.Fiyat) * item.Quantity) ₺</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <!-- Teslimat Adresi Seçimi -->
+                @if (Model.Addresses != null && Model.Addresses.Any())
+                {
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header fw-bold">Teslimat Adresi Seçimi</div>
+                        <div class="card-body">
+                            @foreach (var adres in Model.Addresses)
+                            {
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="SelectedAddressId" value="@adres.Id" required />
+                                    <label class="form-check-label">
+                                        <strong>@adres.AdresBasligi</strong> — @adres.Sehir / @adres.Ilce <br />
+                                        @adres.AcikAdres
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger mt-3 d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong class="text-danger">Kayıtlı Adresiniz Yok!</strong>
+                            <p class="mb-0 text-muted">Sipariş verebilmek için en az 1 adres eklemelisiniz!</p>
+                        </div>
+                        <a href="/Adresslerim/Create" class="btn btn-danger">
+                            <i class="bi bi-person-plus-fill me-1"></i> Adres Ekle
+                        </a>
+                    </div>
+                }
+
+                <!-- Ödeme Seçenekleri -->
+                <div class="card shadow-sm mt-4">
+                    <div class="card-header fw-bold">Ödeme Seçenekleri</div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Kart Numarası</label>
+                            <input type="text" class="form-control" name="CardNumber" required placeholder="Kart Numarası" />
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Son Kullanma Ay</label>
+                                <select class="form-select" name="ExpireMonth" required>
+                                    <option disabled selected value="">Ay</option>
+                                    @for (int i = 1; i <= 12; i++)
+                                    {
+                                        <option value="@i">@i.ToString("D2")</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Son Kullanma Yıl</label>
+                                <select class="form-select" name="ExpireYear" required>
+                                    <option disabled selected value="">Yıl</option>
+                                    @for (int y = DateTime.Now.Year; y <= DateTime.Now.Year + 10; y++)
+                                    {
+                                        <option value="@y">@y</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">CVV</label>
+                            <input type="text" class="form-control" name="CVV" maxlength="3" required placeholder="CVV" />
+                        </div>
+
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-credit-card"></i> Siparişi Tamamla
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sepet Özeti -->
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-header fw-bold">Sepet Özeti</div>
+                    <div class="card-body">
+                        <p>Ara Toplam: <span class="float-end">@Model.TotalPrice ₺</span></p>
+                        <p>
+                            Kargo: <span class="float-end">
+                                @(Model.KargoUcreti == 0 ? "Ücretsiz" : $"{Model.KargoUcreti} ₺")
+                            </span>
+                        </p>
+                        <hr />
+                        <h5>Genel Toplam: <span class="float-end">@(@Model.TotalPrice + Model.KargoUcreti) ₺</span></h5>
+
+                        @if (Model.KargoUcreti == 0)
+                        {
+                            <div class="alert alert-success mt-3">
+                                Sepetiniz 1000₺ ve üzeri olduğu için kargo ücretsiz! 🎉
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+}

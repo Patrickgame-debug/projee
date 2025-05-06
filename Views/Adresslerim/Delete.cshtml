@@ -1,0 +1,30 @@
+﻿@model E_Ticaret.Models.Entities.Adress
+
+@{
+    ViewData["Title"] = "Adres Sil";
+}
+
+<h2 class="text-center my-4 text-danger">Adres Sil</h2>
+
+<div class="alert alert-warning">
+    <strong>@Model.AdresBasligi</strong> adresini silmek üzeresiniz. Emin misiniz?
+</div>
+
+<dl class="row">
+    <dt class="col-sm-3">Şehir:</dt>
+    <dd class="col-sm-9">@Model.Sehir</dd>
+
+    <dt class="col-sm-3">İlçe:</dt>
+    <dd class="col-sm-9">@Model.Ilce</dd>
+
+    <dt class="col-sm-3">Adres:</dt>
+    <dd class="col-sm-9">@Model.AcikAdres</dd>
+</dl>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="text-end">
+        <a asp-action="Index" class="btn btn-secondary me-2">İptal</a>
+        <button type="submit" class="btn btn-danger">Sil</button>
+    </div>
+</form>

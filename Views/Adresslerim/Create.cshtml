@@ -1,0 +1,53 @@
+﻿@model E_Ticaret.Models.Entities.Adress
+
+@{
+    ViewData["Title"] = "Adres Ekle";
+}
+
+<h2 class="text-center my-4">Yeni Adres Ekle</h2>
+
+<form asp-action="Create" method="post" class="card p-4 shadow-sm">
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <div class="mb-3">
+        <label asp-for="AdresBasligi" class="form-label"></label>
+        <input asp-for="AdresBasligi" class="form-control" />
+        <span asp-validation-for="AdresBasligi" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Sehir" class="form-label"></label>
+        <input asp-for="Sehir" class="form-control" />
+        <span asp-validation-for="Sehir" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Ilce" class="form-label"></label>
+        <input asp-for="Ilce" class="form-control" />
+        <span asp-validation-for="Ilce" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="AcikAdres" class="form-label"></label>
+        <textarea asp-for="AcikAdres" class="form-control"></textarea>
+        <span asp-validation-for="AcikAdres" class="text-danger"></span>
+    </div>
+
+    <div class="form-check form-check-inline">
+        <input asp-for="FaturaAdres" class="form-check-input" />
+        <label asp-for="FaturaAdres" class="form-check-label"></label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input asp-for="TeslimatAdres" class="form-check-input" />
+        <label asp-for="TeslimatAdres" class="form-check-label"></label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input asp-for="AktifMi" class="form-check-input" />
+        <label asp-for="AktifMi" class="form-check-label"></label>
+    </div>
+
+    <div class="mt-4 text-end">
+        <a asp-action="Index" class="btn btn-secondary me-2">İptal</a>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </div>
+</form>

@@ -1,0 +1,68 @@
+﻿@model E_Ticaret.Models.Entities.Siparis
+
+@{
+    ViewData["Title"] = "Sipariş Düzenle";
+}
+
+
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="SiparisTarihi" /> 
+            <input type="hidden" asp-for="SiparisNo" />
+            <input type="hidden" asp-for="ToplamTutar" />
+            <input type="hidden" asp-for="KullaniciId" />
+            <input type="hidden" asp-for="MusteriNumarasi" />
+
+            
+
+            <div class="form-group mb-3">
+                <label asp-for="SiparisNo" class="form-label"></label>
+                <input asp-for="SiparisNo" class="form-control"  disabled />
+                <span asp-validation-for="SiparisNo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="ToplamTutar" class="form-label"></label>
+                <input asp-for="ToplamTutar" class="form-control" disabled />
+                <span asp-validation-for="ToplamTutar" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Kullanici" class="control-label">Müşteri</label>
+                <input asp-for="Kullanici" class="form-control" value="@Model.Kullanici?.Adi @Model.Kullanici?.Soyadi" readonly disabled />
+
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="SiparisDurumu" class="form-label"></label>
+                <select asp-for="SiparisDurumu" class="form-select" asp-items="ViewBag.SiparisDurumuları">
+                    <option value="">Seçiniz</option>
+                </select>
+                <span asp-validation-for="SiparisDurumu" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group mb-3">
+                <label asp-for="FaturaAdresi" class="form-label"></label>
+                <input asp-for="FaturaAdresi" class="form-control" />
+                <span asp-validation-for="FaturaAdresi" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="TeslimatAdresi" class="form-label"></label>
+                <input asp-for="TeslimatAdresi" class="form-control" />
+                <span asp-validation-for="TeslimatAdresi" class="text-danger"></span>
+            </div>
+
+            
+
+            <div class="form-group">
+                <input type="submit" value="Kaydet" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary ms-2">İptal</a>
+            </div>
+        </form>
+    </div>
+</div>

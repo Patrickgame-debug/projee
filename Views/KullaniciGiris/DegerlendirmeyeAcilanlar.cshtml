@@ -1,0 +1,84 @@
+﻿@model List<E_Ticaret.Models.Entities.SiparisDetay>
+
+<h2 class="text-center my-4">Değerlendirme Bekleyen Ürünler</h2>
+
+@{
+    var degerlendirilmemisler = Model
+        .Where(d => d.Urun?.Yorumlar == null || !d.Urun.Yorumlar.Any(y => y.SiparisDetayId == d.Id))
+        .ToList();
+
+    var degerlendirilenler = Model
+        .Where(d => d.Urun?.Yorumlar != null && d.Urun.Yorumlar.Any(y => y.SiparisDetayId == d.Id))
+        .ToList();
+}
+
+@if (!degerlendirilmemisler.Any())
+{
+    <div class="alert alert-info text-center">Şu anda değerlendirme yapılabilecek bir ürün bulunmamaktadır.</div>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>Ürün</th>
+                <th>Adet</th>
+                <th>Sipariş Tarihi</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in degerlendirilmemisler)
+            {
+                <tr>
+                    <td>@item.Urun?.UrunAdi</td>
+                    <td>@item.Miktar</td>
+                    <td>@item.Siparis?.SiparisTarihi.ToShortDateString()</td>
+                    <td>
+                        <a asp-action="YorumYap" asp-route-siparisDetayId="@item.Id" class="btn btn-sm btn-outline-primary">Yorum Yap</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<hr class="my-5" />
+
+<h3 class="text-center my-4">Değerlendirilen Ürünler</h3>
+
+@if (!degerlendirilenler.Any())
+{
+    <div class="alert alert-secondary text-center">Henüz değerlendirilmiş bir ürün bulunmamaktadır.</div>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>Ürün</th>
+                <th>Adet</th>
+                <th>Sipariş Tarihi</th>
+                <th>Verilen Puan</th>
+                <th>Yorum</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in degerlendirilenler)
+            {
+                var yorum = item.Urun.Yorumlar.FirstOrDefault(y => y.SiparisDetayId == item.Id);
+                <tr>
+                    <td>@item.Urun?.UrunAdi</td>
+                    <td>@item.Miktar</td>
+                    <td>@item.Siparis?.SiparisTarihi.ToShortDateString()</td>
+                    <td>@yorum?.Puan</td>
+                    <td>@yorum?.YorumMetni</td>
+                    <td>
+                        <a asp-action="YorumDuzenle" asp-route-id="@yorum?.Id" class="btn btn-sm btn-outline-secondary">Düzenle</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

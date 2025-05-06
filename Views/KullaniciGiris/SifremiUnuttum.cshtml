@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Şifremi Unuttum";
+}
+
+<h2>Şifremi Unuttum</h2>
+
+<form asp-action="SifremiUnuttum" method="post">
+    <div class="form-group">
+        <label for="email">E-Posta Adresiniz</label>
+        <input type="email" name="email" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Şifre Sıfırlama Bağlantısı Gönder</button>
+</form>

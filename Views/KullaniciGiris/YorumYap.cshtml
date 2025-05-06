@@ -1,0 +1,48 @@
+﻿@model E_Ticaret.Models.Entities.Yorum
+
+@{
+    ViewData["Title"] = "Yorum Yap";
+}
+
+<h2 class="text-center my-4">Yorum Yap</h2>
+
+<div class="card shadow-sm p-4 mx-auto" style="max-width: 600px;">
+    <form asp-action="YorumYap" method="post">
+        <!-- GİZLİ ALANLAR: SiparisDetayId + UrunId -->
+        <input type="hidden" asp-for="SiparisDetayId" />
+        <input type="hidden" asp-for="UrunId" />
+
+        <!-- Ürün Adı -->
+        <div class="mb-3">
+            <label class="form-label">Ürün</label>
+            <input class="form-control" value="@Model.SiparisDetay?.Urun?.UrunAdi" disabled />
+        </div>
+
+        <!-- Puan Seçimi -->
+        <div class="mb-3">
+            <label asp-for="Puan" class="form-label">Puan (1 - 5)</label>
+            <select asp-for="Puan" class="form-select" required>
+                <option value="">Seçiniz</option>
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <option value="@i">@i</option>
+                }
+            </select>
+            <span asp-validation-for="Puan" class="text-danger"></span>
+        </div>
+
+        <!-- Yorum Metni -->
+        <div class="mb-3">
+            <label asp-for="YorumMetni" class="form-label">Yorum</label>
+            <textarea asp-for="YorumMetni" class="form-control" rows="4" placeholder="Ürün hakkında ne düşünüyorsunuz?"></textarea>
+            <span asp-validation-for="YorumMetni" class="text-danger"></span>
+        </div>
+
+        <!-- Gönder Butonu -->
+        <button type="submit" class="btn btn-primary w-100">Gönder</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

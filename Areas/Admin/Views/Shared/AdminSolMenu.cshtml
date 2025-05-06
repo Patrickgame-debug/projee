@@ -1,0 +1,68 @@
+﻿<div id="layoutSidenav_nav">
+    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+            <div class="nav">
+                <div  style="font-size:15px" class="sb-sidenav-menu-heading">Kullanıcı Ayarları</div>
+                <a class="nav-link" href="/admin">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-house"></i></div>
+                    Ana Ekran
+                </a>
+                <a class="nav-link" href="/Admin/Kullanicilar">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
+                    Kullanıcılar
+                </a>
+                <a class="nav-link" href="/Admin/Adressler">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
+                    Adres Bilgileri
+                </a>
+                <a class="nav-link" href="/Admin/Siparisler">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                    Siparişler 
+                </a>
+
+
+
+                <div style="font-size:15px" class="sb-sidenav-menu-heading">Ürün Ayarları</div>
+                <a class="nav-link" href="/Admin/Urunler">
+                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    Ürünler
+                </a>
+                <a class="nav-link" href="/Admin/Kategoriler">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-list"></i></div>
+                    Kategoriler
+                </a>
+                <a class="nav-link" href="/Admin/Markalar">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-copyright"></i></div>
+                    Markalar
+                </a>
+                 <a class="nav-link" href="/Admin/Kampanyalar">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-bullhorn"></i></div>
+                    Kampanyalar ve Duyurular
+                </a>
+                <a class="nav-link" href="/Admin/AnaSayfaSliders">
+                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    Ana Sayfa Reklam
+                </a>
+                <a class="nav-link" href="index.html">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-truck"></i></div>
+                    Kargo Takip
+                </a>
+
+                <div style="font-size:15px" class="sb-sidenav-menu-heading">Şikayet Kısmı </div>
+                <a class="nav-link" href="/Admin/Iletisimler">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-comment"></i></div>
+                     İletişim
+                </a>
+                <a class="nav-link" href="/Admin/Yorumlar">
+                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    Kullanıcı Yorumları
+                </a>
+
+            </div>
+        </div>
+        <div class="sb-sidenav-footer">
+            <div class="small">Hoşgeldiniz Admin:</div>
+            @Context.User.Identity.Name
+        </div>
+    </nav>
+</div>

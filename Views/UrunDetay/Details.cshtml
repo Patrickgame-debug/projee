@@ -1,0 +1,132 @@
+﻿@model UrunDetayModeli
+@using Microsoft.EntityFrameworkCore
+@using E_Ticaret.Models.Entities
+@inject E_Ticaret.DataContext.DatabaseContext _context
+
+@{
+    var yorumlar = _context.Yorumlar
+        .Where(y => y.UrunId == Model.urun.Id)
+        .Include(y => y.Kullanici)
+        .OrderByDescending(y => y.Tarih)
+        .ToList();
+
+    var ortalamaPuan = yorumlar.Any() ? yorumlar.Average(y => y.Puan) : 0;
+    var toplamYorum = yorumlar.Count;
+    var puanDagilimi = yorumlar
+        .GroupBy(y => y.Puan)
+        .Select(g => new { Puan = g.Key, Sayac = g.Count() })
+        .ToList();
+}
+
+<section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            <div class="col-md-6">
+                <img class="card-img-top mb-5 mb-md-0" src="/Fotolar/@Model.urun.Resim" alt="...">
+            </div>
+            <div class="col-md-6">
+                <div class="small mb-1">SKU: @Model.urun.UrunKodu</div>
+                <h1 class="display-5 fw-bolder">@Model.urun.UrunAdi</h1>
+                <div class="fs-5 mb-5">
+                    <span>@Model.urun.Fiyat.ToString("c")</span>
+                </div>
+                <p class="lead">@Model.urun.Aciklama</p>
+
+                <form asp-controller="Sepet" asp-action="Add" method="post" class="d-flex mb-2">
+                    <input type="hidden" name="urunId" value="@Model.urun.Id" />
+                    <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                    <input class="form-control text-center me-3" type="number" name="quantity" value="1" min="1" style="max-width: 3rem" />
+                    <button type="submit" class="btn btn-outline-dark flex-shrink-0">
+                        <i class="bi-cart-fill me-1"></i> Sepete Ekle
+                    </button>
+                </form>
+
+                <form asp-controller="Favoriler" asp-action="Add" method="post" class="mb-2">
+                    <input type="hidden" name="UrunId" value="@Model.urun.Id" />
+                    <button type="submit" class="btn btn-outline-danger">
+                        <i class="bi bi-heart me-1"></i> Favorilere Ekle
+                    </button>
+                </form>
+
+                <form asp-controller="UrunKarsilastirma" asp-action="AddToCompare" method="post">
+                    <input type="hidden" name="urunId" value="@Model.urun.Id" />
+                    <button type="submit" class="btn btn-outline-primary">
+                        <i class="bi bi-columns-gap me-1"></i> Karşılaştırmaya Ekle
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container px-4 px-lg-5 mt-5">
+        <h2 class="fw-bolder mb-4">İlgili Ürünler</h2>
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            @foreach (var item in Model.ilgiliurunler)
+            {
+                <partial name="UrunlerView" model="item" />
+            }
+        </div>
+    </div>
+</section>
+
+<section class="mt-5">
+    <div class="container px-4 px-lg-5">
+        <h3 class="fw-bold mb-3">Müşteri Yorumları</h3>
+
+        <div class="mb-4">
+            <span class="fs-4">@ortalamaPuan</span>
+            <span class="text-warning">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <i class="bi @(i <= ortalamaPuan ? "bi-star-fill" : (i - ortalamaPuan <= 0.5 ? "bi-star-half" : "bi-star"))"></i>
+                }
+            </span>
+            <span class="text-muted">(@toplamYorum değerlendirme)</span>
+        </div>
+
+        <div class="mb-4">
+            @for (int i = 5; i >= 1; i--)
+            {
+                var sayac = puanDagilimi.FirstOrDefault(p => p.Puan == i)?.Sayac ?? 0;
+                var oran = toplamYorum > 0 ? (double)sayac * 100 / toplamYorum : 0;
+
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2" style="width: 60px;">@i yıldız</span>
+                    <div class="progress flex-grow-1 me-2" style="height: 10px; background-color: #f0f0f0;">
+                        <div class="progress-bar" role="progressbar" style="width: @oran.ToString("0")%; background-color: @(oran > 0 ? "#ffc107" : "#e9ecef");"></div>
+                    </div>
+                    <span>@oran.ToString("0")%</span>
+                </div>
+            }
+        </div>
+
+        @if (!yorumlar.Any())
+        {
+            <div class="alert alert-secondary">Bu ürün için henüz yorum yapılmamış.</div>
+        }
+        else
+        {
+            @foreach (var yorum in yorumlar)
+            {
+                <div class="border rounded p-3 mb-3">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-person-circle fs-4 me-2"></i>
+                        <div>
+                            <div class="fw-bold">@yorum.Kullanici?.Adi</div>
+                            <div class="text-muted small">@yorum.Tarih?.ToString("dd MMM yyyy")</div>
+                        </div>
+                    </div>
+                    <div class="text-warning mb-1">
+                        @for (int i = 1; i <= yorum.Puan; i++)
+                        {
+                            <i class="bi bi-star-fill"></i>
+                        }
+                    </div>
+                    <div>@yorum.YorumMetni</div>
+                </div>
+            }
+        }
+    </div>
+</section>

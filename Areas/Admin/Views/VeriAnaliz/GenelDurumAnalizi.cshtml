@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Genel Durum Analizi";
+}
+
+<h2>🔍 Güncel Durum Değerlendirmesi</h2>
+
+<div class="card mt-4">
+    <div class="card-body">
+        @if (ViewBag.Rapor != null)
+        {
+                <pre>@ViewBag.Rapor</pre>
+        }
+        else
+        {
+                <div class="alert alert-warning">Veri bulunamadı veya analiz alınamadı.</div>
+        }
+    </div>
+</div>

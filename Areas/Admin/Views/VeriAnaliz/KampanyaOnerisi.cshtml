@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "AI Kampanya Önerisi";
+}
+<h2>📢 Yapay Zekâ Kampanya Önerisi</h2>
+
+<div class="card mt-4">
+    <div class="card-body">
+        @if (ViewBag.Oneri != null)
+        {
+            <p>@ViewBag.Oneri</p>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                Şu anda yapay zekadan kampanya önerisi alınamadı.
+            </div>
+        }
+    </div>
+</div>

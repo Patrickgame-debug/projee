@@ -6,11 +6,21 @@ using System.Security.Claims;
 using E_Ticaret.Models.Entities;
 
 using E_Ticaret.OrtakKullanim;
+using E_Ticaret.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+// kiþisel ürün icin yapay zeka
+builder.Services.AddScoped<UrunTavsiyeService>();
+builder.Services.AddScoped<AdminVeriAnalizService>();
+
+
+// YAPAY ZEKA
+builder.Services.AddHttpClient(); // HTTP istemcisi
+builder.Services.AddScoped<YorumModerasyonService>(); // Moderasyon servisi
+
 
 // EMAÝL KISMI
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

@@ -39,9 +39,17 @@
             <td>
                 @Html.DisplayFor(modelItem => item.SiparisDetay.Id)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Kullanici.Adi)
-            </td>
+                <td>
+                    @if (item.Kullanici?.HesapEngelliMi == true)
+                    {
+                        <span style="color: red;">@item.Kullanici.Adi (engelli)</span>
+                    }
+                    else
+                    {
+                        <span>@item.Kullanici.Adi</span>
+                    }
+                </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Puan)
             </td>

@@ -4,6 +4,7 @@ using E_Ticaret.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Ticaret.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20250507124529_KullaniciEngellemeEkle")]
+    partial class KullaniciEngellemeEkle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -276,9 +279,9 @@ namespace E_Ticaret.Migrations
                             Id = 1,
                             Aciklama = "Bilgisayar kategorisi",
                             AktifMi = true,
-                            GuncellemeTarihi = new DateTime(2025, 5, 7, 17, 22, 15, 814, DateTimeKind.Local).AddTicks(1577),
+                            GuncellemeTarihi = new DateTime(2025, 5, 7, 15, 45, 29, 298, DateTimeKind.Local).AddTicks(9473),
                             KategoriAdi = "Bilgisayar",
-                            KayitTarihi = new DateTime(2025, 5, 7, 17, 22, 15, 812, DateTimeKind.Local).AddTicks(6119),
+                            KayitTarihi = new DateTime(2025, 5, 7, 15, 45, 29, 297, DateTimeKind.Local).AddTicks(4896),
                             Resim = "bilgisayar.png",
                             SiparisNo = 1,
                             UstKategoriId = 0,
@@ -289,9 +292,9 @@ namespace E_Ticaret.Migrations
                             Id = 2,
                             Aciklama = "Telefon kategorisi",
                             AktifMi = true,
-                            GuncellemeTarihi = new DateTime(2025, 5, 7, 17, 22, 15, 814, DateTimeKind.Local).AddTicks(2816),
+                            GuncellemeTarihi = new DateTime(2025, 5, 7, 15, 45, 29, 299, DateTimeKind.Local).AddTicks(665),
                             KategoriAdi = "Telefon",
-                            KayitTarihi = new DateTime(2025, 5, 7, 17, 22, 15, 814, DateTimeKind.Local).AddTicks(2813),
+                            KayitTarihi = new DateTime(2025, 5, 7, 15, 45, 29, 299, DateTimeKind.Local).AddTicks(663),
                             Resim = "telefon.png",
                             SiparisNo = 2,
                             UstKategoriId = 0,
@@ -371,11 +374,11 @@ namespace E_Ticaret.Migrations
                             Adres = "İstanbul KaynarcaMah",
                             AktifMi = true,
                             Email = "email@hotmail.com",
-                            GuncellemeTarihi = new DateTime(2025, 5, 7, 17, 22, 15, 815, DateTimeKind.Local).AddTicks(7769),
+                            GuncellemeTarihi = new DateTime(2025, 5, 7, 15, 45, 29, 300, DateTimeKind.Local).AddTicks(4427),
                             HesapEngelliMi = false,
-                            KayitTarihi = new DateTime(2025, 5, 7, 17, 22, 15, 815, DateTimeKind.Local).AddTicks(7766),
+                            KayitTarihi = new DateTime(2025, 5, 7, 15, 45, 29, 300, DateTimeKind.Local).AddTicks(4424),
                             KullaniciAdi = "admin",
-                            KullaniciGuid = new Guid("e0a358bd-b270-419c-a884-656e55247740"),
+                            KullaniciGuid = new Guid("edcaa4ef-e634-42eb-a991-aca109df762c"),
                             Sifre = "123",
                             Soyadi = "Admin",
                             Telefon = "123456789"
@@ -626,7 +629,7 @@ namespace E_Ticaret.Migrations
             modelBuilder.Entity("E_Ticaret.Models.Entities.Siparis", b =>
                 {
                     b.HasOne("E_Ticaret.Models.Entities.Kullanici", "Kullanici")
-                        .WithMany("Siparisler")
+                        .WithMany()
                         .HasForeignKey("KullaniciId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -699,8 +702,6 @@ namespace E_Ticaret.Migrations
             modelBuilder.Entity("E_Ticaret.Models.Entities.Kullanici", b =>
                 {
                     b.Navigation("Adresler");
-
-                    b.Navigation("Siparisler");
                 });
 
             modelBuilder.Entity("E_Ticaret.Models.Entities.Marka", b =>

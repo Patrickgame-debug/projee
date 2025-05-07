@@ -46,9 +46,23 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Urun.UrunAdi)
         </dd>
+        <dt class="col-sm-2">
+            Kullanıcı Durumu
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.Kullanici?.HesapEngelliMi == true)
+            {
+                <span style="color: red;">❌ Engellenmiş</span>
+            }
+            else
+            {
+                <span style="color: green;">✅ Aktif</span>
+            }
+        </dd>
+
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Düzenle</a> |
+    <a asp-action="Index">Geri Dön</a>
 </div>

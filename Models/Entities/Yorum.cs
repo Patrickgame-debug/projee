@@ -27,5 +27,8 @@ namespace E_Ticaret.Models.Entities
         public int? UrunId { get; set; }
         public Urun? Urun { get; set; }
 
+        //chatgbt icin
+        public bool OnaylandiMi { get; set; } = true;
+
     }
 }

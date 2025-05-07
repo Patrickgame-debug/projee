@@ -173,5 +173,43 @@ namespace E_Ticaret.Areas.Admin.Controllers
         {
             return _context.Yorumlar.Any(e => e.Id == id);
         }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EngelleKullanici(int kullaniciId)
+        {
+            var kullanici = await _context.Kullancilar.FindAsync(kullaniciId);
+            if (kullanici == null)
+            {
+                return NotFound();
+            }
+
+            kullanici.HesapEngelliMi = true;
+            _context.Update(kullanici);
+            await _context.SaveChangesAsync();
+
+            TempData["Mesaj"] = "Kullanıcı başarıyla engellendi.";
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EngeliKaldir(int kullaniciId)
+        {
+            var kullanici = await _context.Kullancilar.FindAsync(kullaniciId);
+            if (kullanici == null)
+            {
+                return NotFound();
+            }
+
+            kullanici.HesapEngelliMi = false;
+            _context.Update(kullanici);
+            await _context.SaveChangesAsync();
+
+            TempData["Mesaj"] = "Kullanıcının hesabı tekrar aktifleştirildi.";
+            return RedirectToAction(nameof(Index));
+        }
+
+
     }
 }

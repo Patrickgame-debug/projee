@@ -82,6 +82,20 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.KullaniciGuid)
         </dd>
+        <dt class="col-sm-2">
+            Kullanıcı Durumu
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.HesapEngelliMi)
+            {
+                <span class="text-danger fw-bold">❌ Engellenmiş</span>
+            }
+            else
+            {
+                <span class="text-success fw-bold">✅ Engellenmemiş</span>
+            }
+        </dd>
+
     </dl>
 </div>
 <div>

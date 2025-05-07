@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Müşteri Detayı";
+    var yeniMusteriler = ViewBag.YeniMusteriler as List<E_Ticaret.Models.Entities.Kullanici>;
+    var topMusteriler = ViewBag.TopMusteriler;
+    var toplamMusteri = ViewBag.ToplamMusteri;
+}
+
+<h2>Müşteri Detayı</h2>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5>Toplam Müşteri</h5>
+                <p class="display-6">@toplamMusteri kişi</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5>Son 7 Günde Kayıt Olanlar</h5>
+                <p class="display-6">@yeniMusteriler?.Count kişi</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4>📈 En Çok Sipariş Veren 10 Müşteri</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ad Soyad</th>
+            <th>E-posta</th>
+            <th>Sipariş Sayısı</th>
+            <th>Toplam Harcama (₺)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var m in topMusteriler)
+        {
+            <tr>
+                <td>@m.Kullanici.Adi @m.Kullanici.Soyadi</td>
+                <td>@m.Kullanici.Email</td>
+                <td>@m.SiparisSayisi</td>
+                <td>@m.ToplamTutar.ToString("N2")</td>
+            </tr>
+        }
+    </tbody>
+</table>

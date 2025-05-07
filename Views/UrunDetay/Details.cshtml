@@ -5,10 +5,11 @@
 
 @{
     var yorumlar = _context.Yorumlar
-        .Where(y => y.UrunId == Model.urun.Id)
-        .Include(y => y.Kullanici)
-        .OrderByDescending(y => y.Tarih)
-        .ToList();
+    .Where(y => y.UrunId == Model.urun.Id && y.OnaylandiMi)
+    .Include(y => y.Kullanici)
+    .OrderByDescending(y => y.Tarih)
+    .ToList();
+
 
     var ortalamaPuan = yorumlar.Any() ? yorumlar.Average(y => y.Puan) : 0;
     var toplamYorum = yorumlar.Count;

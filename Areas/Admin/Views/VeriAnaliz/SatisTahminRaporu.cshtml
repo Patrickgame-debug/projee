@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Satış Tahmin Raporu";
+}
+<h2>📈 Önümüzdeki Hafta Satış Tahmini</h2>
+
+<div class="card mt-4">
+    <div class="card-body">
+        @if (ViewBag.Tahmin != null)
+        {
+            <p>@ViewBag.Tahmin</p>
+        }
+        else
+        {
+            <div class="alert alert-warning">Tahmin verisi alınamadı.</div>
+        }
+    </div>
+</div>

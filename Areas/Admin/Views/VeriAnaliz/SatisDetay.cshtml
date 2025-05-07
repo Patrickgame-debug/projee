@@ -1,0 +1,81 @@
+﻿@{
+    ViewData["Title"] = "Satış Detayları";
+}
+
+<h2 class="mb-4">Satış Detayları</h2>
+
+<div class="row mb-4">
+    <div class="col-xl-4 col-md-6">
+        <div class="card bg-warning text-white mb-4">
+            <div class="card-body">Toplam Satış Tutarı</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <span class="text-white fw-bold">4.962.000 ₺</span>
+                <i class="fas fa-coins"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6">
+        <div class="card bg-secondary text-white mb-4">
+            <div class="card-body">Toplam Sipariş Sayısı</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <span class="text-white fw-bold">33</span>
+                <i class="fas fa-receipt"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6">
+        <div class="card bg-dark text-white mb-4">
+            <div class="card-body">Ortalama Sipariş Tutarı</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <span class="text-white fw-bold">150.363 ₺</span>
+                <i class="fas fa-calculator"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-chart-bar me-1"></i>
+        Günlük Satış Dağılımı (Son 7 Gün)
+    </div>
+    <div class="card-body">
+        <canvas id="satisGrafik"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    async function yukleSatisVerisi() {
+        const response = await fetch('/Admin/VeriAnaliz/GunlukSatisOzetVerisi');
+        const data = await response.json();
+
+        const tarihEtiketleri = data.map(x => x.Tarih);
+        const satislar = data.map(x => x.SatisAdedi);
+
+        new Chart(document.getElementById('satisGrafik'), {
+            type: 'bar',
+            data: {
+                labels: tarihEtiketleri,
+                datasets: [{
+                    label: 'Satış Adedi',
+                    data: satislar,
+                    backgroundColor: 'rgba(255, 206, 86, 0.7)',
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        stepSize: 1
+                    }
+                }
+            }
+        });
+    }
+    yukleSatisVerisi();
+</script>

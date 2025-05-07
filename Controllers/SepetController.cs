@@ -6,16 +6,21 @@ using Newtonsoft.Json;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Iyzipay.Model;
+using Iyzipay.Request;
+using Iyzipay;
 
 namespace E_Ticaret.Controllers
 {
     public class SepetController : Controller
     {
         private readonly DatabaseContext _context;
+        private readonly IConfiguration _configuration;
 
-        public SepetController(DatabaseContext context)
+        public SepetController(DatabaseContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         [HttpPost]
@@ -193,6 +198,7 @@ namespace E_Ticaret.Controllers
             var selectedAddress = await _context.Adresler.FindAsync(SelectedAddressId);
             if (selectedAddress == null)
                 return NotFound("Adres bulunamadı.");
+           
 
             // Sipariş oluşturuluyor
             var siparis = new Siparis

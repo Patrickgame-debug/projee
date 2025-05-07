@@ -92,44 +92,47 @@ namespace E_Ticaret.Controllers
                 try
                 {
                     var kullanici = await _context.Kullancilar
-                        .FirstOrDefaultAsync(x => x.Email == kayitSayfaModeli.Email & x.Sifre == kayitSayfaModeli.Sifre);
+                        .FirstOrDefaultAsync(x => x.Email == kayitSayfaModeli.Email && x.Sifre == kayitSayfaModeli.Sifre);
+
                     if (kullanici == null)
                     {
-                        ModelState.AddModelError("", "Kullanıcı adı veya şifre hatalı");
+                        ModelState.AddModelError("", "Kullanıcı adı veya şifre hatalı.");
+                        return View(kayitSayfaModeli);
                     }
-                    else
+
+                    // ✅ HESAP ENGELLİ Mİ KONTROLÜ
+                    if (kullanici.HesapEngelliMi)
                     {
-                        var claims = new List<Claim>
-                        {
-                            new Claim(ClaimTypes.Name, kullanici.Adi),
-                            new Claim(ClaimTypes.Role, kullanici.AdminMi ? "Admin" : "User"),
-                            new Claim(ClaimTypes.Email, kullanici.Email),
-                            new Claim("KullaniciId", kullanici.Id.ToString()),
-                            new Claim("KullaniciGuid", kullanici.KullaniciGuid.ToString())
-                        };
-                        var UserIdentity = new ClaimsIdentity(claims, "Login");
-                        ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(UserIdentity);
-                        await HttpContext.SignInAsync(claimsPrincipal);
-
-                        /*if (kullanici.AdminMi)
-                        {
-                            return RedirectToAction("Index", "Main", new { area = "Admin" });
-                        }
-                        */
-
-                        return Redirect(string.IsNullOrEmpty(kayitSayfaModeli.GeriDonusUrl) ? "/" : kayitSayfaModeli.GeriDonusUrl); 
-
+                        ModelState.AddModelError("", "Hesabınız engellenmiştir. Lütfen destek ile iletişime geçiniz.");
+                        return View(kayitSayfaModeli);
                     }
+
+                    var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, kullanici.Adi),
+                new Claim(ClaimTypes.Role, kullanici.AdminMi ? "Admin" : "User"),
+                new Claim(ClaimTypes.Email, kullanici.Email),
+                new Claim("KullaniciId", kullanici.Id.ToString()),
+                new Claim("KullaniciGuid", kullanici.KullaniciGuid.ToString())
+            };
+
+                    var userIdentity = new ClaimsIdentity(claims, "Login");
+                    ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(userIdentity);
+
+                    await HttpContext.SignInAsync(claimsPrincipal);
+
+                    return Redirect(string.IsNullOrEmpty(kayitSayfaModeli.GeriDonusUrl) ? "/" : kayitSayfaModeli.GeriDonusUrl);
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("", "Kullanıcı adı veya şifre hatalı");
+                    ModelState.AddModelError("", "Bir hata oluştu. Lütfen tekrar deneyiniz.");
                     return View(kayitSayfaModeli);
                 }
             }
-            return View(kayitSayfaModeli);
 
+            return View(kayitSayfaModeli);
         }
+
 
 
 

@@ -1,0 +1,34 @@
+﻿@using E_Ticaret.Models.Entities
+@model List<KategoriUrunSatisModel>
+
+@{
+    ViewData["Title"] = "Kategori Bazlı Ürün Raporu";
+}
+
+<h2 class="mb-4">Kategorilere Göre En Çok ve En Az Satan Ürünler</h2>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Kategori</th>
+            <th>En Çok Satan Ürün</th>
+            <th>Satış Adedi</th>
+            <th>En Az Satan Ürün</th>
+            <th>Satış Adedi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.KategoriAdi</td>
+                <td>@item.EnCokSatanUrun</td>
+                <td>@item.EnCokSatisAdedi</td>
+                <td>@item.EnAzSatanUrun</td>
+                <td>@item.EnAzSatisAdedi</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-secondary mt-3" href="/Admin/VeriAnaliz">← Geri Dön</a>

@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Genel Satış Özeti";
+}
+
+<h2>Genel Satış Özeti</h2>
+
+<div class="row" id="ozetKartlari"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    async function yukleGenelSatisOzeti() {
+        const response = await fetch('/Admin/VeriAnaliz/GenelSatisOzetiVerisi');
+        const data = await response.json();
+
+        const kartHtml = `
+            <div class="col-md-3"><div class="card text-white bg-primary mb-3"><div class="card-body"><h5 class="card-title">Toplam Satış Tutarı</h5><p class="card-text">${data.toplamTutar.toLocaleString()} ₺</p></div></div></div>
+            <div class="col-md-3"><div class="card text-white bg-success mb-3"><div class="card-body"><h5 class="card-title">Toplam Sipariş</h5><p class="card-text">${data.toplamSiparis}</p></div></div></div>
+            <div class="col-md-3"><div class="card text-white bg-warning mb-3"><div class="card-body"><h5 class="card-title">Ortalama Sipariş</h5><p class="card-text">${data.ortalamaSiparisDegeri.toFixed(2)} ₺</p></div></div></div>
+            <div class="col-md-3"><div class="card text-white bg-danger mb-3"><div class="card-body"><h5 class="card-title">🏆 En Çok Satan</h5><p class="card-text">${data.enCokSatanUrun} <br/> (${data.enCokSatanKategori})</p></div></div></div>
+        `;
+
+        document.getElementById('ozetKartlari').innerHTML = kartHtml;
+    }
+
+    yukleGenelSatisOzeti();
+</script>

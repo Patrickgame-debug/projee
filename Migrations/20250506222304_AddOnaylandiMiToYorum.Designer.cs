@@ -4,6 +4,7 @@ using E_Ticaret.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Ticaret.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20250506222304_AddOnaylandiMiToYorum")]
+    partial class AddOnaylandiMiToYorum
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -276,9 +279,9 @@ namespace E_Ticaret.Migrations
                             Id = 1,
                             Aciklama = "Bilgisayar kategorisi",
                             AktifMi = true,
-                            GuncellemeTarihi = new DateTime(2025, 5, 7, 17, 22, 15, 814, DateTimeKind.Local).AddTicks(1577),
+                            GuncellemeTarihi = new DateTime(2025, 5, 7, 1, 23, 3, 491, DateTimeKind.Local).AddTicks(6915),
                             KategoriAdi = "Bilgisayar",
-                            KayitTarihi = new DateTime(2025, 5, 7, 17, 22, 15, 812, DateTimeKind.Local).AddTicks(6119),
+                            KayitTarihi = new DateTime(2025, 5, 7, 1, 23, 3, 489, DateTimeKind.Local).AddTicks(7528),
                             Resim = "bilgisayar.png",
                             SiparisNo = 1,
                             UstKategoriId = 0,
@@ -289,9 +292,9 @@ namespace E_Ticaret.Migrations
                             Id = 2,
                             Aciklama = "Telefon kategorisi",
                             AktifMi = true,
-                            GuncellemeTarihi = new DateTime(2025, 5, 7, 17, 22, 15, 814, DateTimeKind.Local).AddTicks(2816),
+                            GuncellemeTarihi = new DateTime(2025, 5, 7, 1, 23, 3, 491, DateTimeKind.Local).AddTicks(8588),
                             KategoriAdi = "Telefon",
-                            KayitTarihi = new DateTime(2025, 5, 7, 17, 22, 15, 814, DateTimeKind.Local).AddTicks(2813),
+                            KayitTarihi = new DateTime(2025, 5, 7, 1, 23, 3, 491, DateTimeKind.Local).AddTicks(8586),
                             Resim = "telefon.png",
                             SiparisNo = 2,
                             UstKategoriId = 0,
@@ -329,9 +332,6 @@ namespace E_Ticaret.Migrations
 
                     b.Property<DateTime?>("GuncellemeTarihi")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("HesapEngelliMi")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("KayitTarihi")
                         .HasColumnType("datetime2");
@@ -371,11 +371,10 @@ namespace E_Ticaret.Migrations
                             Adres = "İstanbul KaynarcaMah",
                             AktifMi = true,
                             Email = "email@hotmail.com",
-                            GuncellemeTarihi = new DateTime(2025, 5, 7, 17, 22, 15, 815, DateTimeKind.Local).AddTicks(7769),
-                            HesapEngelliMi = false,
-                            KayitTarihi = new DateTime(2025, 5, 7, 17, 22, 15, 815, DateTimeKind.Local).AddTicks(7766),
+                            GuncellemeTarihi = new DateTime(2025, 5, 7, 1, 23, 3, 493, DateTimeKind.Local).AddTicks(6045),
+                            KayitTarihi = new DateTime(2025, 5, 7, 1, 23, 3, 493, DateTimeKind.Local).AddTicks(6042),
                             KullaniciAdi = "admin",
-                            KullaniciGuid = new Guid("e0a358bd-b270-419c-a884-656e55247740"),
+                            KullaniciGuid = new Guid("0e3a9716-25f3-4e27-8008-afd1d47c6480"),
                             Sifre = "123",
                             Soyadi = "Admin",
                             Telefon = "123456789"
@@ -626,7 +625,7 @@ namespace E_Ticaret.Migrations
             modelBuilder.Entity("E_Ticaret.Models.Entities.Siparis", b =>
                 {
                     b.HasOne("E_Ticaret.Models.Entities.Kullanici", "Kullanici")
-                        .WithMany("Siparisler")
+                        .WithMany()
                         .HasForeignKey("KullaniciId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -699,8 +698,6 @@ namespace E_Ticaret.Migrations
             modelBuilder.Entity("E_Ticaret.Models.Entities.Kullanici", b =>
                 {
                     b.Navigation("Adresler");
-
-                    b.Navigation("Siparisler");
                 });
 
             modelBuilder.Entity("E_Ticaret.Models.Entities.Marka", b =>

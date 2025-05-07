@@ -35,7 +35,11 @@ namespace E_Ticaret.Models.Entities
 
         public List<Adress>? Adresler { get; set; } //  adres ile  kullanı arasında BAĞ KURMUS OLDUK BÖYLECE 
 
-
+        // yeni ekledim 7.05.2025
+        [Display(Name = "Engelli mi?")]
+        public bool HesapEngelliMi { get; set; } = false;
+        // yeni ekledim 7.05.2025
+        public List<Siparis>? Siparisler { get; set; } // ✅ bunu ekliyorsun
     }
     
 }

@@ -1,0 +1,31 @@
+﻿@model List<E_Ticaret.Models.Entities.Urun>
+
+<div class="container mt-5">
+    <h3 class="fw-bold mb-4">ChatGPT Öneriyor 🔮</h3>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row row-cols-2 row-cols-md-4 g-4">
+            @foreach (var urun in Model)
+            {
+                <div class="col">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <img src="/Fotolar/@urun.Resim" class="card-img-top" alt="@urun.UrunAdi">
+                        <div class="card-body">
+                            <h5 class="card-title">@urun.UrunAdi</h5>
+                            <p class="card-text">@urun.Aciklama?.Substring(0, Math.Min(70, urun.Aciklama.Length))...</p>
+                            <span class="fw-bold">@urun.Fiyat.ToString("C")</span>
+                        </div>
+                        <div class="card-footer bg-white border-0">
+                            <a href="/Urunler/Details/@urun.Id" class="btn btn-outline-primary w-100">Detay</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">Şu anda önerilecek ürün bulunamadı.</div>
+    }
+</div>

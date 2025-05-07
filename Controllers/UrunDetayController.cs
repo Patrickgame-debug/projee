@@ -1,30 +1,31 @@
-﻿using E_Ticaret.Areas.Admin.Controllers;
-using E_Ticaret.DataContext;
+﻿using E_Ticaret.DataContext;
 using E_Ticaret.Models.Entities;
+using E_Ticaret.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Ticaret.Controllers
 {
-    // bu kısım  urunlerimizin olduğu ve arama motorunundan arattığımızda cıkan ürünler  
     public class UrunDetayController : Controller
     {
         private readonly DatabaseContext _context;
+        private readonly YorumModerasyonService _moderasyonService;
 
-        public UrunDetayController(DatabaseContext context)
+        public UrunDetayController(DatabaseContext context, YorumModerasyonService moderasyonService)
         {
             _context = context;
+            _moderasyonService = moderasyonService;
         }
 
-
-        public async Task<IActionResult> Index(string arama="")
+        public async Task<IActionResult> Index(string arama = "")
         {
-            // arama kısmı  arama yaparken  arama kısmına yazdığımız kelimeyi alır ve o kelimeyi içeren ürünleri getirir daha fazla ayar icin i.UrunAdi.Contains(arama) buradan devam et mesela || i.Description.Contains(arama9
-            var databaseContext = _context.Urunler.Where(i => i.AktifMi &&  i.UrunAdi.Contains(arama)).Include(u => u.Kategori).Include(u => u.Marka);
+            var databaseContext = _context.Urunler
+                .Where(i => i.AktifMi && i.UrunAdi.Contains(arama))
+                .Include(u => u.Kategori)
+                .Include(u => u.Marka);
+
             return View(await databaseContext.ToListAsync());
         }
-
-
 
         public async Task<IActionResult> Details(int? id)
         {
@@ -41,9 +42,25 @@ namespace E_Ticaret.Controllers
             if (urun == null)
                 return NotFound();
 
-            var yorumlar = urun.Yorumlar?
+            // 💬 Yorumlar üzerinde moderasyon kontrolü yap
+            foreach (var yorum in urun.Yorumlar.Where(y => y.OnaylandiMi))
+            {
+                var olumsuzMu = await _moderasyonService.YorumOlumsuzMu(yorum.YorumMetni);
+                if (olumsuzMu)
+                {
+                    yorum.OnaylandiMi = false; // yayından kaldır
+                    _context.Update(yorum);    // değişikliği veritabanına kaydet
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            // 🔎 Sadece onaylanan yorumları listele
+            var yorumlar = urun.Yorumlar
+                .Where(y => y.OnaylandiMi)
                 .OrderByDescending(y => y.Tarih)
-                .ToList() ?? new();
+                .ToList();
+
 
             var ortalamaPuan = yorumlar.Any() ? yorumlar.Average(y => y.Puan ?? 0) : 0;
             var toplamYorum = yorumlar.Count;
@@ -66,6 +83,5 @@ namespace E_Ticaret.Controllers
 
             return View(model);
         }
-
     }
 }

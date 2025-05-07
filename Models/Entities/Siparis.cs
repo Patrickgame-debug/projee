@@ -25,6 +25,7 @@ namespace E_Ticaret.Models.Entities
 
         [Display(Name = "Müşteri")]
         public Kullanici? Kullanici { get; set; } // İlişkili kullanıcı
+
         public List<SiparisDetay>? SiparisDetaylari { get; set; }
 
 

@@ -43,9 +43,23 @@
                 <select asp-for="UrunId" class="form-control" asp-items="ViewBag.UrunId"></select>
                 <span asp-validation-for="UrunId" class="text-danger"></span>
             </div>
+            <hr />
+           
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
+        </form>
+        <form asp-action="EngelleKullanici" method="post">
+            <input type="hidden" name="kullaniciId" value="@Model.KullaniciId" />
+            <button type="submit" class="btn btn-danger"
+                    onclick="return confirm('Bu kullanıcıyı gerçekten engellemek istiyor musunuz?');">
+                Kullanıcıyı Engelle
+            </button>
+        </form>
+        <form asp-action="EngeliKaldir" asp-controller="Yorumlar" method="post" class="mt-2">
+            <input type="hidden" name="kullaniciId" value="@Model.KullaniciId" />
+            <button class="btn btn-success" onclick="return confirm('Bu kullanıcının engelini kaldırmak istiyor musunuz?');">Hesabı Aç</button>
         </form>
     </div>
 </div>

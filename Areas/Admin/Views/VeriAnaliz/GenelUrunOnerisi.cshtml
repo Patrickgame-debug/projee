@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Genel Ürün Önerisi";
+}
+
+<h2>Genel Satış Verilerine Göre Ürün Önerileri</h2>
+
+@if (ViewBag.GenelOneri != null)
+{
+    <div class="alert alert-info">
+        <p>@ViewBag.GenelOneri</p>
+    </div>
+}
+else
+{
+    <p>Henüz öneri bulunmamaktadır.</p>
+}
